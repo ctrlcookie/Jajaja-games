@@ -6,10 +6,10 @@ import ddf.minim.spi.*;
 import ddf.minim.ugens.*;
 
 color[] palette1 = {#33582E,#E8DF97, #D6A85C, #8C5330, #65190F}; //warms n a green
-color[] palette2 = {#ffffff,#ff0000,#65190F,#65190F,#65190F};
-color[] palette3 = {#ffffff,#ff0000,#65190F,#65190F,#65190F};
-color[] palette4 = {#ffffff,#ff0000,#65190F,#65190F,#65190F};
-color[] palette5 = {#ffffff,#ff0000,#65190F,#65190F,#65190F};
+color[] palette2 = {#EDF3C5,#7CAE8D,#C7BC3E,#F38341,#E14339}; //warm cool mix
+color[] palette3 = {#A10B39,#BA2232,#4A6255,#4BAC61,#14D0D3}; //red n blue grrens
+//color[] palette4 = {#ffffff,#ff0000,#65190F,#65190F,#65190F};
+//color[] palette5 = {#ffffff,#ff0000,#65190F,#65190F,#65190F};
 
 
 float theta = 0;
