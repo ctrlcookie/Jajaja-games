@@ -30,7 +30,7 @@ float audioFrequency = 0;
 float kickSize, snareSize, hatSize; 
 float smoothedAverage = 0;
 int switchnum = 0;
-int maxswitch = 5;
+int maxswitch = 6;
 
 
 FFT fft; //using fast fourier transform
@@ -108,7 +108,7 @@ void draw() {
     }
   }
 
-  switch(switchnum) {
+  switch(switchnum) {  //this doesn't appear to work that well so find another way to do it
   case 0: 
     frequencystuff();
     println("zero");
@@ -123,13 +123,20 @@ void draw() {
     wavylads();
     println("two");
     break;
+    
   case 3: 
     threedeewave();
     println("three");
     break;
+    
   case 4: 
     spiralstuffs();
     println("four");
+    break;
+    
+  case 5: 
+    pixelbath();
+    println("five");
     break;
   }
 

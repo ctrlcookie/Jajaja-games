@@ -1,4 +1,4 @@
-void frequencystuff() {
+void frequencystuff() { //UNFINISHED change color ?
   background(0);
   colorMode(RGB);
 
@@ -15,10 +15,11 @@ void frequencystuff() {
     line( width, i, i*2, height  - fft.getBand(i)*8 ); //same as 3 but with cool pattern and fixed
     line( i, width, i*2, height  - fft.getBand(i)*8 ); //enable with previous (4) for 3d look
     //line( i, width, height  - fft.getBand(i)*8, i*2 ); //same as 4 but other way
+    println(fft.getBand(i));
   }
 }
 
-void wavylads() {
+void wavylads() {   //UNFINISHED spruce it up a lil
   colorMode(HSB);
   strokeWeight(1);
   background(0);
@@ -63,13 +64,9 @@ void wavylads() {
   }
   float average = sum / buffer.size();
   smoothedAverage = lerp(smoothedAverage, average, 0.1);
-  ellipse(width/2, height/2, smoothedAverage * 350, smoothedAverage * 350);
-  ellipse(width/2, height/2, smoothedAverage * 250, smoothedAverage * 250);
-  ellipse(width/2, height/2, smoothedAverage * 200, smoothedAverage * 200);
-  ellipse(width/2, height/2, smoothedAverage * 150, smoothedAverage * 150);
 }
 
-void circleboxes() {
+void circleboxes() { //UNFINISHED
   strokeWeight(3);
   background(0);
 
@@ -140,7 +137,7 @@ void circleboxes() {
   popMatrix();
 }
 
-void threedeewave() {
+void threedeewave() { //FINISHED
   background(0);
   float sum = 0;
   pushMatrix();
@@ -160,21 +157,52 @@ void threedeewave() {
   smoothedAverage = lerp(smoothedAverage, average, 0.1);
 }
 
-void spiralstuffs() { //remember: lerp them all at diff % speeds
+void spiralstuffs() { //FINISHED
   float sum = 0;
 
-  for (int j = 0; j < buffer.size(); j ++) 
+  for (int l = 0; l < buffer.size(); l ++) 
   {
-    float c = map(j, 0, buffer.size(), 0, 255); 
+    float c = map(l, 0, buffer.size(), 0, 255); 
     stroke(c, 255, 255);
-    float sample = buffer.get(j) * (height / 2);  
+    float sample = buffer.get(l) * (height / 2);  
 
-    sum += abs(buffer.get(j));
+    sum += abs(buffer.get(l));
+    ellipse(width/2, height/2, smoothedAverage * (l * 20), smoothedAverage * (l * 20));
   }
   float average = sum / buffer.size();
   smoothedAverage = lerp(smoothedAverage, average, 0.1);
-  ellipse(width/2, height/2, smoothedAverage * 350, smoothedAverage * 350);
-  ellipse(width/2, height/2, smoothedAverage * 250, smoothedAverage * 250);
-  ellipse(width/2, height/2, smoothedAverage * 200, smoothedAverage * 200);
-  ellipse(width/2, height/2, smoothedAverage * 150, smoothedAverage * 150);
+  //ellipse(width/2, height/2, smoothedAverage * 350, smoothedAverage * 350);
+  //ellipse(width/2, height/2, smoothedAverage * 250, smoothedAverage * 250);
+  //ellipse(width/2, height/2, smoothedAverage * 200, smoothedAverage * 200);
+  //ellipse(width/2, height/2, smoothedAverage * 150, smoothedAverage * 150);
+}
+
+void pixelbath() { //FINISHED
+  float goup = 0.03;
+  colorMode(HSB);
+
+  loadPixels();
+
+  float xoff = 0.0; // Start xoff at 0
+  for (int i = 0; i < fft.specSize(); i++) //to be fixed, possibly
+  {
+  float detail = map(fft.getBand(i), 0, .09, 0.1, 0.6); 
+  noiseDetail(8, detail);}
+
+  // For every x,y coordinate in a 2D space, calculate a noise value and produce a brightness value
+  for (int x = 0; x < width; x++) {
+    xoff += goup; 
+    float yoff = 0.0;   // For every xoff, start yoff at 0
+    for (int y = 0; y < height; y++) {
+      yoff += goup; 
+
+      // Calculate noise and scale by 255
+      float bright = noise(xoff, yoff) * 255;
+
+      // Set each pixel onscreen to a color value
+      pixels[x+y*width] = color(bright + 10, 255, 255);
+    }
+  }
+
+  updatePixels();
 }
