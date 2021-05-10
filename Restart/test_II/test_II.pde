@@ -30,7 +30,17 @@ float audioFrequency = 0;
 float kickSize, snareSize, hatSize; 
 float smoothedAverage = 0;
 int switchnum = 0;
-int maxswitch = 6;
+int maxswitch = 7;
+
+int Sphere = 20;// this is the number of spheres
+float[] sx = new float[Sphere];
+float[] sy = new float[Sphere];
+float[] sspeed = new float[Sphere];
+float[] sSize = new float[Sphere];
+float[] sColorR = new float[Sphere];
+float[] sColorG = new float[Sphere];
+float[] sColorB = new float[Sphere];
+
 
 
 FFT fft; //using fast fourier transform
@@ -82,11 +92,24 @@ void setup() {
   kickSize = snareSize = hatSize = 100; //variables we'll be using in a bit
   beatlistener = new BeatListener(beat, audioSample);    // new beat listener, so that we won't miss any buffers for the analysis, according to the documentation
   colorMode(HSB);
+  
+  //JM bubblelads
+  for (int i = 0; i < Sphere; i++) 
+  {
+
+    sx[i] = random(0, width);
+    sy[i] = random(0, height);
+    sspeed[i] = random(-2, -15); // this changes how quick they go across the screen
+    sSize[i] = random(25, 50); // this will change the size of the spheres
+    sColorR[i] = random(1, 102);
+    sColorG[i] = random(1, 255);
+    sColorB[i] = random(153, 255);
+  }
 }
 
 void draw() {
   background(0);
-  //lights();
+  lights();
 
   fft.window (FFT.HAMMING); //it's important
   fft.forward(audioSample.mix); 
@@ -108,7 +131,7 @@ void draw() {
     }
   }
 
-  switch(switchnum) {  //this doesn't appear to work that well so find another way to do it
+  /*switch(switchnum) {  //this doesn't appear to work that well so find another way to do it
   case 0: 
     frequencystuff();
     println("zero");
@@ -123,22 +146,30 @@ void draw() {
     wavylads();
     println("two");
     break;
-    
+
   case 3: 
     threedeewave();
     println("three");
     break;
-    
+
   case 4: 
     spiralstuffs();
     println("four");
     break;
-    
+
   case 5: 
     pixelbath();
     println("five");
     break;
+
+  case 6: 
+    bubblelads();
+    println("six");
+    break;
   }
+  */
+  
+  bubblelads();
 
 
   kickSize = constrain(kickSize * 0.95, 100, 150);
