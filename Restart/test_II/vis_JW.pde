@@ -15,7 +15,6 @@ void frequencystuff() { //UNFINISHED change color ?
     line( width, i, i*2, height  - fft.getBand(i)*8 ); //same as 3 but with cool pattern and fixed
     line( i, width, i*2, height  - fft.getBand(i)*8 ); //enable with previous (4) for 3d look
     //line( i, width, height  - fft.getBand(i)*8, i*2 ); //same as 4 but other way
-    println(fft.getBand(i));
   }
 }
 

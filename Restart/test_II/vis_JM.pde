@@ -1,18 +1,18 @@
-void bubblelads(){ //fix colours
-  
-   noFill();
-   noStroke();
+void bubblelads() { //fix colours
+  colorMode(RGB);
+  noFill();
+  noStroke();
 
-float sum = 0;
-  
+  float sum = 0;
+
   for (int z = 0; z < buffer.size(); z ++)
   {
     sum += abs(buffer.get(z));
   }
-  
+
   float average = sum / (float) buffer.size();
   lerpedAverage = lerp(lerpedAverage, average, 0.1f);
-  
+
 
   for (int y = 0; y < Sphere; y ++) // sphere creation
   {
@@ -37,8 +37,5 @@ float sum = 0;
       sColorG[y] = random(1, 255);
       sColorB[y] = random(153, 255);
     }
-    println(sColorR);
-    println(sColorG);
-    println(sColorB);
   }
 }

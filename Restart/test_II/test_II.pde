@@ -92,7 +92,7 @@ void setup() {
   kickSize = snareSize = hatSize = 100; //variables we'll be using in a bit
   beatlistener = new BeatListener(beat, audioSample);    // new beat listener, so that we won't miss any buffers for the analysis, according to the documentation
   colorMode(HSB);
-  
+
   //JM bubblelads
   for (int i = 0; i < Sphere; i++) 
   {
@@ -104,6 +104,13 @@ void setup() {
     sColorR[i] = random(1, 102);
     sColorG[i] = random(1, 255);
     sColorB[i] = random(153, 255);
+  }
+}
+
+void keyReleased() {
+  switchnum += 1;
+  if (switchnum == maxswitch) {
+    switchnum = 0;
   }
 }
 
@@ -124,14 +131,8 @@ void draw() {
   if ( beat.isHat() ) hatSize = 150;
 
 
-  if (keyPressed == true) {
-    switchnum ++;
-    if (switchnum == maxswitch) {
-      switchnum = 0;
-    }
-  }
 
-  /*switch(switchnum) {  //this doesn't appear to work that well so find another way to do it
+  switch(switchnum) {  //this doesn't appear to work that well so find another way to do it
   case 0: 
     frequencystuff();
     println("zero");
@@ -167,10 +168,6 @@ void draw() {
     println("six");
     break;
   }
-  */
-  
-  bubblelads();
-
 
   kickSize = constrain(kickSize * 0.95, 100, 150);
   snareSize = constrain(snareSize * 0.95, 100, 150);
