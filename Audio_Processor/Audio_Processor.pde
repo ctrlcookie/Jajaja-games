@@ -16,6 +16,11 @@ AudioBuffer basslineBuffer;
 
 float basslineFrequency = 0;
 
+float minHeight = 20;
+float maxHeight = height - 20;
+float dotHeight;
+
+
 void setup()
 {
   size (1024, 512);
@@ -25,7 +30,7 @@ void setup()
 
   colorMode(HSB);
 
-  basslineBuffer = trackSetup(bassline, basslineBuffer, "Audio and Data/Bass.mp3");
+  basslineBuffer = trackSetup(bassline, basslineBuffer, "Audio and Data/test.mp3");
 }
 void draw()
 {
@@ -35,10 +40,12 @@ void draw()
   fft.window (FFT.HAMMING);
 
   basslineFrequency = lerp (basslineFrequency, frequency(basslineBuffer), 0.5);
-  
+
   rectMode(CENTER);
-  rect (width / 2,height / 2, basslineFrequency, 20);
-  
+
+  rect (width / 2, height / 2, 20, basslineFrequency);
+
+
   text ("current loudest frequency: " + basslineFrequency, width / 2, height / 2);
 }
 
