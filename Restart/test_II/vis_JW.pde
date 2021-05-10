@@ -1,4 +1,5 @@
-void frequencystuff() { //UNFINISHED change color ?
+//Jadwiga Walkowiak [studentnumberhere]
+void sunrays() { //UNFINISHED change color ?
   background(0);
   colorMode(RGB);
 
@@ -17,6 +18,8 @@ void frequencystuff() { //UNFINISHED change color ?
     //line( i, width, height  - fft.getBand(i)*8, i*2 ); //same as 4 but other way
   }
 }
+
+//---------------------------------------------------------------------------------
 
 void wavylads() {   //UNFINISHED spruce it up a lil
   colorMode(HSB);
@@ -64,6 +67,8 @@ void wavylads() {   //UNFINISHED spruce it up a lil
   float average = sum / buffer.size();
   smoothedAverage = lerp(smoothedAverage, average, 0.1);
 }
+
+//--------------------------------------------------------------------------------
 
 void circleboxes() { //UNFINISHED
   strokeWeight(3);
@@ -136,6 +141,8 @@ void circleboxes() { //UNFINISHED
   popMatrix();
 }
 
+//---------------------------------------------------------------------------------
+
 void threedeewave() { //FINISHED
   background(0);
   float sum = 0;
@@ -163,18 +170,15 @@ void spiralstuffs() { //FINISHED
   {
     float c = map(l, 0, buffer.size(), 0, 255); 
     stroke(c, 255, 255);
-    float sample = buffer.get(l) * (height / 2);  
 
     sum += abs(buffer.get(l));
     ellipse(width/2, height/2, smoothedAverage * (l * 20), smoothedAverage * (l * 20));
   }
   float average = sum / buffer.size();
   smoothedAverage = lerp(smoothedAverage, average, 0.1);
-  //ellipse(width/2, height/2, smoothedAverage * 350, smoothedAverage * 350);
-  //ellipse(width/2, height/2, smoothedAverage * 250, smoothedAverage * 250);
-  //ellipse(width/2, height/2, smoothedAverage * 200, smoothedAverage * 200);
-  //ellipse(width/2, height/2, smoothedAverage * 150, smoothedAverage * 150);
 }
+
+//-------------------------------------------------------------------------------
 
 void pixelbath() { //FINISHED
   float goup = 0.03;
@@ -185,8 +189,9 @@ void pixelbath() { //FINISHED
   float xoff = 0.0; // Start xoff at 0
   for (int i = 0; i < fft.specSize(); i++) //to be fixed, possibly
   {
-  float detail = map(fft.getBand(i), 0, .09, 0.1, 0.6); 
-  noiseDetail(8, detail);}
+    float detail = map(fft.getBand(i), 0, .03, 0.1, 0.6); //re-adjust later
+    noiseDetail(8, detail);
+  }
 
   // For every x,y coordinate in a 2D space, calculate a noise value and produce a brightness value
   for (int x = 0; x < width; x++) {
@@ -202,6 +207,5 @@ void pixelbath() { //FINISHED
       pixels[x+y*width] = color(bright + 10, 255, 255);
     }
   }
-
   updatePixels();
 }

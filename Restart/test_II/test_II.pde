@@ -7,7 +7,7 @@
  * But for the love of all this is holy, use the same size() to make migration at the end easier.
  */
 
-
+//Jadwiga Walkowiak [studentnumberhere]
 
 import ddf.minim.*;
 import ddf.minim.analysis.*;
@@ -30,9 +30,12 @@ float audioFrequency = 0;
 float kickSize, snareSize, hatSize; 
 float smoothedAverage = 0;
 int switchnum = 0;
-int maxswitch = 7;
+int maxswitch = 10;
+boolean playing = false;
 
-int Sphere = 20;// this is the number of spheres
+float speed = 0.01f;
+int Sphere = 20;
+int Cube = 20;
 float[] sx = new float[Sphere];
 float[] sy = new float[Sphere];
 float[] sspeed = new float[Sphere];
@@ -40,7 +43,11 @@ float[] sSize = new float[Sphere];
 float[] sColorR = new float[Sphere];
 float[] sColorG = new float[Sphere];
 float[] sColorB = new float[Sphere];
-
+float[] cColorR = new float[Cube];
+float[] cColorG = new float[Cube];
+float[] cColorB = new float[Cube];
+float[] lerpedBuffer;
+float lerpedAvg = 0;
 
 
 FFT fft; //using fast fourier transform
@@ -82,7 +89,6 @@ void setup() {
 
   minim = new Minim (this); //minim lib
   audioSample = minim.loadFile("Above Control.mp3", 1024); //sample
-  audioSample.play(); //play sample
   //audioSample.loop(); //loop sample
   buffer = audioSample.mix; //buffer left and right input mixed
   fft = new FFT(audioSample.bufferSize(), audioSample.sampleRate()); // what we're FFTing
@@ -93,7 +99,7 @@ void setup() {
   beatlistener = new BeatListener(beat, audioSample);    // new beat listener, so that we won't miss any buffers for the analysis, according to the documentation
   colorMode(HSB);
 
-  //JM bubblelads
+  //JM bubblelads and cubeballoons
   for (int i = 0; i < Sphere; i++) 
   {
 
@@ -104,13 +110,26 @@ void setup() {
     sColorR[i] = random(1, 102);
     sColorG[i] = random(1, 255);
     sColorB[i] = random(153, 255);
+    cColorR[i] = random(1, 255);
+    cColorG[i] = random(0, 0);
+    cColorB[i] = random(1, 153);
   }
 }
 
 void keyReleased() {
-  switchnum += 1;
-  if (switchnum == maxswitch) {
-    switchnum = 0;
+  if (keyCode == ' ') { //pausing was James' idea
+    if ( !playing) {
+      playing = true;
+      audioSample.play(); //play sample
+    } else {
+      playing = false;
+      audioSample.pause(); //stop sample
+    }
+  } else { 
+    switchnum += 1;  //switch visuals
+    if (switchnum == maxswitch) { //loop back to case 0
+      switchnum = 0;
+    }
   }
 }
 
@@ -134,7 +153,7 @@ void draw() {
 
   switch(switchnum) {  //this doesn't appear to work that well so find another way to do it
   case 0: 
-    frequencystuff();
+    sunrays();
     println("zero");
     break;
 
@@ -166,6 +185,21 @@ void draw() {
   case 6: 
     bubblelads();
     println("six");
+    break;
+
+  case 7: 
+    dissolving_wave();     
+    println("seven");
+    break;
+
+  case 8: 
+    cubeballoons();     
+    println("eight");
+    break;
+
+  case 9: 
+    cubematrix();     
+    println("nine");
     break;
   }
 
