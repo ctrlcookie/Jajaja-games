@@ -23,7 +23,7 @@ float lerpedRotAmount;
 
 void setup() 
 { 
-  size(1024, 500, P3D);
+  size(1024, 600, P3D);
 
   minim = new Minim (this);
 
@@ -63,7 +63,7 @@ void draw()
   lerpedRotAmount = lerp (lerpedRotAmount, rotAmount, 0.2f); 
   if(currentVolume > 60)
   {
-    rotAmount = random(-5,5);
+    rotAmount = random(-10, 10);
   }  
   rotateZ(radians(lerpedRotAmount));
   //draw text
