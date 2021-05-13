@@ -1,15 +1,6 @@
-/** The plan as it stands: make a number of visuals that can be swapped-between
- *in such a way that it looks nice and feels natural for the length of a song.
- *I am working in this file. If you wish to add on to the things i am doing
- *then please copy the file and work there (or just give me the advice).
- * It would be best if you didn't do that though, and instead worked in new file
- * on a different visual that can then be spliced into one project.
- * But for the love of all this is holy, use the same size() to make migration at the end easier.
- */
-
 //Jadwiga Walkowiak [studentnumberhere]
 
-import ddf.minim.*;
+import ddf.minim.*;  //minimlibrary
 import ddf.minim.analysis.*;
 import ddf.minim.effects.*;
 import ddf.minim.signals.*;
@@ -23,16 +14,19 @@ color[] palette4 = {#392A30, #755C6A, #CAB992, #F3CC97, #C29A8E}; //purplish
 color[] palette5 = {#D0E3BC, #8EBF87, #4A895B, #286147, #264D3A}; //bright
 
 
-float theta = 0;
+float theta = 0;  
+float x;
+float y;
 float lerpedAverage = 0;
 float lerpedFrequency = 0;
 float audioFrequency = 0;
 float kickSize, snareSize, hatSize; 
 float smoothedAverage = 0;
 int switchnum = 0;
-int maxswitch = 10;
-boolean playing = false;
+int maxswitch = 12; //max number of switch statements before looping back to the first
+boolean playing = false; //is the audio playing?
 
+//JMs variables
 float speed = 0.01f;
 int Sphere = 20;
 int Cube = 20;
@@ -43,13 +37,56 @@ float[] sSize = new float[Sphere];
 float[] sColorR = new float[Sphere];
 float[] sColorG = new float[Sphere];
 float[] sColorB = new float[Sphere];
+
+float[] cx = new float[Cube];
+float[] cy = new float[Cube];
+float[] cz = new float[Cube];
+float[] cspeed = new float[Cube];
+float[] cSize = new float[Cube];
 float[] cColorR = new float[Cube];
 float[] cColorG = new float[Cube];
 float[] cColorB = new float[Cube];
+
+float[] lerpedFFT;
+
+float B = 255;
+
+//JRs variables
 float[] lerpedBuffer;
 float lerpedAvg = 0;
+float currentVolume;
+float lerpedVolume;
+float textHue;
+float lerpedHue;
+float amount;
+float lerpedAmount;
+float rotAmount;
+float lerpedRotAmount;
 
+int cols, rows;
+int scl = 20;
+int w = 2000;
+int h = 1600;
 
+float Speed = 0;
+float rate = -0.05;
+float lerpedRate;
+float SpeedDivider = 1;
+float lerpedSpeedDiv;
+
+float[][] terrain;
+
+float maxHeight;
+
+float backgroundColor;
+float backgroundLerp;
+
+float backgroundColorH;
+
+float heightMultiplier;
+float lerpedMultiplier;
+
+Cube c;
 FFT fft; //using fast fourier transform
 Minim minim; //using minim library
 AudioPlayer audioSample; //the song we're using
@@ -86,9 +123,17 @@ void setup() {
   smooth();
   rectMode(CENTER);
   noFill();
+  noCursor();
+
+  cols = w / scl;
+  rows = h/ scl;
+  terrain = new float[cols][rows];
+
+
+  c = new Cube();
 
   minim = new Minim (this); //minim lib
-  audioSample = minim.loadFile("Above Control.mp3", 1024); //sample
+  audioSample = minim.loadFile("Song.mp3", 1024); //sample
   //audioSample.loop(); //loop sample
   buffer = audioSample.mix; //buffer left and right input mixed
   fft = new FFT(audioSample.bufferSize(), audioSample.sampleRate()); // what we're FFTing
@@ -110,6 +155,11 @@ void setup() {
     sColorR[i] = random(1, 102);
     sColorG[i] = random(1, 255);
     sColorB[i] = random(153, 255);
+    cx[i] = random(0, width);
+    cy[i] = random(0, height);
+    cz[i] = random(-512, 100);
+    cspeed[i] = random(2, 15); // this changes how quick they go across the screen
+    cSize[i] = random(25, 50); // this will change the size of the spheres
     cColorR[i] = random(1, 255);
     cColorG[i] = random(0, 0);
     cColorB[i] = random(1, 153);
@@ -145,20 +195,20 @@ void draw() {
   //if ( beat.isOnset() ){ //how to check if a beat is detected
   //  background(100);
   //}
-  if ( beat.isKick() ) kickSize = 150; //lerp it later
+  if ( beat.isKick() ) kickSize = 150; //lerp it later??
   if ( beat.isSnare() ) snareSize = 150;
   if ( beat.isHat() ) hatSize = 150;
 
 
 
-  switch(switchnum) {  //this doesn't appear to work that well so find another way to do it
+  switch(switchnum) {  //fixed
   case 0: 
-    sunrays();
+    textscreen();     
     println("zero");
     break;
 
   case 1: 
-    circleboxes();
+    sunrays();
     println("one");
     break;
 
@@ -200,6 +250,16 @@ void draw() {
   case 9: 
     cubematrix();     
     println("nine");
+    break;
+
+  case 10: 
+    circleboxes();
+    println("ten");
+    break;
+
+  case 11: 
+    rotatingplanet();     
+    println("eleven");
     break;
   }
 

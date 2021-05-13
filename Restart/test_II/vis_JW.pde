@@ -1,5 +1,5 @@
 //Jadwiga Walkowiak [studentnumberhere]
-void sunrays() { //UNFINISHED change color ?
+void sunrays() { 
   background(0);
   colorMode(RGB);
 
@@ -26,6 +26,22 @@ void wavylads() {   //UNFINISHED spruce it up a lil
   strokeWeight(1);
   background(0);
   stroke(255);
+  noFill();
+  
+  CalculateVolume();
+  currentVolume = map(currentVolume, 0, 1500, 50, 200);
+  lerpedVolume = lerp (lerpedVolume, currentVolume, 0.2f); //from JRs sketches
+  
+  float easing = 0.05;
+  float targetX = mouseX;
+  float dx = targetX - x;
+  x += dx * easing;
+  float targetY = mouseY;
+  float dy = targetY - y;
+  y += dy * easing;
+  ellipse(x, y, -10 + lerpedVolume * 2, -10 + lerpedVolume * 2);
+  ellipse(x, y, -25 + lerpedVolume * 2, -25 + lerpedVolume * 2);
+  ellipse(x, y, -40 + lerpedVolume * 2, -40 + lerpedVolume * 2);
 
   float sum = 0;
 
@@ -72,6 +88,7 @@ void wavylads() {   //UNFINISHED spruce it up a lil
 
 void circleboxes() { //UNFINISHED
   strokeWeight(3);
+  noFill();
   background(0);
 
   pushMatrix();
@@ -139,6 +156,35 @@ void circleboxes() { //UNFINISHED
   theta += TWO_PI/500;
   rect(0, 0, 150, 150);
   popMatrix();
+  
+  strokeWeight(3);
+  
+  pushMatrix();
+  stroke(palette5[2]);
+  translate(width/2, height/2, 50);
+  rotateX(theta/2);
+  rotateY(theta/2);
+  theta += TWO_PI/500;
+  rect(0, 0, 200 + snareSize, 200 + snareSize);
+  popMatrix();
+
+  pushMatrix();
+  stroke(palette5[1]);
+  translate(width/2, height/2, 50);
+  rotateY(theta/2);
+  rotateZ(theta/2);
+  theta += TWO_PI/500;
+  rect(0, 0, 250 + hatSize, 250 + hatSize);
+  popMatrix();
+  
+  pushMatrix();
+  stroke(palette5[3]);
+  translate(width/2, height/2, 50);
+  rotateX(theta/2);
+  rotateZ(theta/2);
+  theta += TWO_PI/500;
+  rect(0, 0, 300 + kickSize, 300 + kickSize);
+  popMatrix();
 }
 
 //---------------------------------------------------------------------------------
@@ -162,8 +208,9 @@ void threedeewave() { //FINISHED
   float average = sum / buffer.size();
   smoothedAverage = lerp(smoothedAverage, average, 0.1);
 }
+//-------------------------------------------------------------------------------
 
-void spiralstuffs() { //FINISHED
+void spiralstuffs() { 
   float sum = 0;
 
   for (int l = 0; l < buffer.size(); l ++) 
@@ -172,7 +219,7 @@ void spiralstuffs() { //FINISHED
     stroke(c, 255, 255);
 
     sum += abs(buffer.get(l));
-    ellipse(width/2, height/2, smoothedAverage * (l * 20), smoothedAverage * (l * 20));
+    ellipse(width/2, height/2, (smoothedAverage * (l * 20)) * 3, (smoothedAverage * (l * 20)) * 3);
   }
   float average = sum / buffer.size();
   smoothedAverage = lerp(smoothedAverage, average, 0.1);
@@ -180,7 +227,7 @@ void spiralstuffs() { //FINISHED
 
 //-------------------------------------------------------------------------------
 
-void pixelbath() { //FINISHED
+void pixelbath() { 
   float goup = 0.03;
   colorMode(HSB);
 

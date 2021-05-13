@@ -18,10 +18,10 @@ int scl = 20;
 int w = 2000;
 int h = 1600;
 
-float speed = 0;
+float Speed = 0;
 float rate = -0.05;
 float lerpedRate;
-float speedDivider = 1;
+float SpeedDivider = 1;
 float lerpedSpeedDiv;
 
 float[][] terrain;
@@ -68,27 +68,27 @@ void draw()
   lerpedVolume = lerp (lerpedVolume, currentVolume, 0.2f);
 
   lerpedRate = lerp (lerpedRate, rate, 0.5f);
-  lerpedSpeedDiv = lerp (lerpedSpeedDiv, speedDivider, 0.1f);
+  lerpedSpeedDiv = lerp (lerpedSpeedDiv, SpeedDivider, 0.1f);
   
   lerpedMultiplier = lerp (lerpedMultiplier, heightMultiplier, 0.2f);
 
   backgroundColor = lerp (backgroundColor, 0, 0.1);
 
   maxHeight = lerpedVolume / 50; 
-  speed -= lerpedRate;
+  Speed -= lerpedRate;
 
   if (currentVolume > 65)
   {
     rate = random (-0.15, 0.15);
-    // speedDivider = random (0.9, 1.3);
+    // SpeedDivider = random (0.9, 1.3);
 
     backgroundColor = 255;
     backgroundColorH = random (0, 255);
   }
 
-  float yoff = speed / speedDivider;
+  float yoff = Speed / SpeedDivider;
   for (int y = 0; y < rows; y++) {
-    float xoff  = speed * speedDivider;
+    float xoff  = Speed * SpeedDivider;
     for (int x = 0; x < cols; x++) {
       terrain[x][y] = map(noise(xoff, yoff), 0, 1, -100, 100);
       //heightasColor = map(terrain[x][y], -100, 100, 0, 255);

@@ -79,36 +79,38 @@ void dissolving_wave() {
 void cubeballoons() { //spheres code but cubes instead
   colorMode(RGB);
   noFill();
-  noStroke();
+  noFill();
 
   float sum = 0;
-
-  for (int z = 0; z < buffer.size(); z ++)
+  for (int i = 0; i <buffer.size(); i ++)
   {
-    sum += abs(buffer.get(z));
+    sum += abs(buffer.get(i));
   }
-
   float average = sum / (float) buffer.size();
   lerpedAverage = lerp(lerpedAverage, average, 0.1f);
+  background(0);
+  lights();
+  noFill();
 
-  for (int y = 0; y < Cube; y ++) // sphere creation
+  for (int i = 0; i < Cube; i ++) // sphere creation
   {
     pushMatrix();
-    translate(sx[y], sy[y], sSize[y]);
-    box(sSize[y] +(lerpedAverage * 500));
+    translate(cx[i], cy[i], cz[i]);
+    box(cSize[i] +(lerpedAverage * 500));
     popMatrix();
-    stroke (cColorR[y], cColorG[y], cColorB[y]);
-    sy[y] += sspeed[y];
+    stroke (cColorR[i], cColorG[i], cColorB[i]);
+    cz[i] += cspeed[i];
 
-    if (sy[y] < 0) // this basically says "after it reaches this height (Y 0), make a new sphere here (Y Height)"
+    if (cz[i] > 512) // this basically says "after it reaches this height (Y 0), make a new sphere here (Y Height)"
     {
-      sx[y] = random(0, width);
-      sy[y] = height;
-      sspeed[y] = random(-2, -15);
-      sSize[y] = random(25, 50);
-      cColorR[y] = random(1, 255);
-      cColorG[y] = random(0, 0);
-      cColorB[y] = random(1, 255);
+      cx[i] = random(0, width);
+      cy[i] = random(0, height);
+      cz[i] = -512;
+      cspeed[i] = random(2, 15);
+      cSize[i] = random(25, 50);
+      cColorR[i] = random(1, 255);
+      cColorG[i] = random(0, 0);
+      cColorB[i] = random(1, 255);
     }
   }
 }
@@ -129,76 +131,65 @@ void cubematrix() {
   lights();
 
   pushMatrix();
-  stroke(2, 251, 255);
-  translate(width /2, height / 2, 0);
-  rotateX(theta);
-  rotateY(theta);
-  rotateZ(theta);
-  box(10 + (lerpedAverage * 500));
+  stroke(2, 251, B);
+  c.display();
+  box (10 + (lerpedAverage * 500));
   popMatrix();
 
   pushMatrix();
-  stroke(16, 216, 255);
-  translate(width / 2, height / 2, 0);
-  rotateX(theta);
-  rotateY(theta);
-  rotateZ(theta);
+  stroke(16, 216, B);
+  c.display();
   box(20 + (lerpedAverage * 500));
   popMatrix();
 
   pushMatrix();
-  stroke(28, 186, 255);
-  translate(width / 2, height / 2, 0);
-  rotateX(theta);
-  rotateY(theta);
-  rotateZ(theta);
+  stroke(28, 186, B);
+  c.display();
   box(30 + (lerpedAverage * 500));
   popMatrix();
 
   pushMatrix();
-  stroke(41, 152, 255);
-  translate(width /2, height / 2, 0);
-  rotateX(theta);
-  rotateY(theta);
-  rotateZ(theta);
+  stroke(41, 152, B);
+  c.display();
   box(40 + (lerpedAverage * 500));
   popMatrix();
 
   pushMatrix();
-  stroke(54, 119, 255);
-  translate(width /2, height / 2, 0);
-  rotateX(theta);
-  rotateY(theta);
-  rotateZ(theta);
+  stroke(54, 119, B);
+  c.display();
   box(50 + (lerpedAverage * 500));
   popMatrix();
 
   pushMatrix();
-  stroke(68, 86, 255);
-  translate(width /2, height / 2, 0);
-  rotateX(theta);
-  rotateY(theta);
-  rotateZ(theta);
+  stroke(68, 86, B);
+  c.display();
   box(60 + (lerpedAverage * 500));
   popMatrix();
 
   pushMatrix();
-  stroke(80, 55, 255);
-  translate(width /2, height / 2, 0);
-  rotateX(theta);
-  rotateY(theta);
-  rotateZ(theta);
+  stroke(80, 55, B);
+  c.display();
   box(70 + (lerpedAverage * 500));
   popMatrix();
 
   pushMatrix();
-  stroke(90, 20, 255);
-  translate(width /2, height / 2, 0);
-  rotateX(theta);
-  rotateY(theta);
-  rotateZ(theta);
+  stroke(90, 20, B);
+  c.display();
   box(80 + (lerpedAverage * 500));
   popMatrix();
 
   theta += speed;
+}
+
+class Cube {
+
+
+  void display()
+  {
+
+    translate(width /2, height / 2, 0);
+    rotateX(theta);
+    rotateY(theta);
+    rotateZ(theta);
+  }
 }
