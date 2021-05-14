@@ -214,7 +214,7 @@ void draw() {
   case 0: 
     textscreen();     
     textSize(32);
-    text("Controls: A, Space, and Mouse!", 0, height-500);
+    text("Controls: A, Space, Mouse, other keys change sketch!", 0, height-500);
     println("zero");
     break;
 
